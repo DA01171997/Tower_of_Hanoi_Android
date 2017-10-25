@@ -1,0 +1,112 @@
+//Duy Do
+/*Use linkstack FIFO to pop in disk from one to the other. 
+Create 3 disks with linkstack. Read in user input. 
+Q means quit. Make a move peg function passing in user input of From and To pegs.
+Compare the disk value from in the fuction. Switch them according to the rules. End program by user input Q */
+
+#include<iostream>
+#include"LinkedStack.h"
+#include "SLinkedList.h"
+using namespace std;
+
+void Pegmove(LinkedStack<int>& F, LinkedStack<int>& T) { // function that take in & of the Two stacks as parameter, the From stack and In stack , compare and implement accordingly to the rule
+	int a = F.top(); //temp value to compare
+	int b;			//temp value to compare
+	
+	if (T.empty()) {
+		T.push(a);
+		F.pop();
+	}
+	else {
+		int a = F.top();
+		int b = T.top();
+		if (a < b) {
+			F.pop();
+			T.push(a);
+		}
+		else {
+			cout << "   Invalid move" << endl;
+		}
+	}
+}
+
+int main() {
+
+	// initilizing the 3 Stacks for A B C 
+	LinkedStack<int> a;
+	LinkedStack<int> b;
+	LinkedStack<int> c;
+
+	char FromPeg; //R for random
+	char ToPeg;
+	for (int i = 0; i < 5; i++) { //initilizing stack A with 1 2 3 4 5 
+		a.push((5 - i));
+	}
+
+	do {
+		// Cout "empty" if the stack is empty 
+
+		cout << "   Topmost disks: A=";
+		if (a.size() == 0) {
+			cout << "empty";
+		}
+		else { cout << a.top(); }
+
+
+		cout << "    B=";
+
+		if (b.size() == 0) {
+			cout << "empty";
+		}
+		else { cout << b.top(); }
+
+
+		cout << "     C=";
+		if (c.size() == 0) {
+			cout << "empty" << endl;
+		}
+		else { cout << c.top() << endl; }
+
+
+		//get user inputs for From and To Peg
+
+
+		cout << "Next move" << endl;
+		cout << "   From which peg (A/B/C)? ";
+		cin >> FromPeg;
+		if (FromPeg == 'Q') { exit(0); } //exit program input=='Q'
+		cout << "   To which peg (A/B/C)? ";
+		cin >> ToPeg;
+
+		// Use user inputs to call the Pegmove function
+		if (FromPeg == 'A') {
+			if (ToPeg == 'B') {
+				Pegmove(a, b);
+			}
+			if (ToPeg == 'C') {
+				Pegmove(a, c);
+			}
+		}
+		else if (FromPeg == 'B') {
+			if (ToPeg == 'A') {
+				Pegmove(b, c);
+			}
+			if (ToPeg == 'C') {
+				Pegmove(b, c);
+			}
+		}
+		else if (FromPeg == 'C') {
+			if (ToPeg == 'B') {
+				Pegmove(c, b);
+			}
+			if (ToPeg == 'A') {
+				Pegmove(c, a);
+			}
+		}
+
+	} while (FromPeg != 'Q');
+
+
+	system("pause");
+	return 0;
+}
