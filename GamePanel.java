@@ -3,12 +3,12 @@ package com.example.jason.towers;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
 /**
  * Created by JASON on 10/25/2017.
  */
@@ -16,30 +16,51 @@ import android.view.SurfaceView;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     private MainThread thread;
 
+
     Disk[] allDisks = new Disk[5];
     Point[] allPoints = new Point[5];
+    //Peg stackOne = new Peg(xleft,xright);
+    //Peg stackTwo = new Peg(xleft,xright);
+    //Peg stackThree = new Peg(xleft,xright);
+    Disk standOne;
+    Disk standTwo;
+    Disk standThree;
+    Point pointOne;
+    Point pointTwo;
+    Point pointThree;
+    int currentDisk = 0;
+    int originX = 0;
+    int originY = 0;
     boolean hold;
-    private Disk one;
-    private Point onePoint;
+
+    int width = getResources().getDisplayMetrics().widthPixels;
+    int height = getResources().getDisplayMetrics().heightPixels;
+
 
     public GamePanel(Context context){
         super(context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-
         hold = false;
-        allDisks[0] = new Disk(new Rect(100,100,200,500), Color.rgb(0,255,0));
-        allDisks[1] = new Disk(new Rect(100,100,200,500), Color.rgb(255,0,0));
-        allDisks[2] = new Disk(new Rect(100,100,200,500), Color.rgb(0,0,255));
-        allDisks[3] = new Disk(new Rect(100,100,200,500), Color.rgb(0,255,0));
-        allDisks[4] = new Disk(new Rect(100,100,200,500), Color.rgb(0,255,0));
-        allPoints[0] = new Point(200,200);
-        allPoints[1] = new Point(200,400);
-        allPoints[2] = new Point(200,600);
-        allPoints[3] = new Point(200,800);
-        allPoints[4] = new Point(200,1000);
- //       one = new Disk(new Rect(100,100,200,500), Color.rgb(0,255,0));
- //       onePoint = new Point(200,200);
+        standOne = new Disk(new Rect(100,100,(int)(width/3.1573),(height/8)), Color.rgb(0,0,0), 0);
+        standTwo = new Disk(new Rect(100,100,(int)(width/3.1573),(height/8)), Color.rgb(0,0,0), 0);
+        standThree = new Disk(new Rect(100,100,(int)(width/3.1573),(height/8)), Color.rgb(0,0,0), 0);
+        pointOne = new Point(394, 1300);
+        pointTwo = new Point(1184,1300);
+        pointThree = new Point(1973, 1300);
+        allDisks[0] = new Disk(new Rect(100,100,(int)(width/3.643),(height/8)), Color.rgb(0,255,0), 5);
+        allDisks[1] = new Disk(new Rect(100,100,550,(height/8)), Color.rgb(255,0,0), 4);
+        allDisks[2] = new Disk(new Rect(100,100,450,(height/8)), Color.rgb(0,0,255), 3);
+        allDisks[3] = new Disk(new Rect(100,100,350,(height/8)), Color.rgb(255,255,0), 2);
+        allDisks[4] = new Disk(new Rect(100,100,250,(height/8)), Color.rgb(0,255,255), 1);
+        allPoints[0] = new Point(394,(int)(height/1.3));
+        allPoints[1] = new Point((width/6),(int)(height/1.4));          //WTF
+        allPoints[2] = new Point((width/6),(int)(height/1.5));
+        allPoints[3] = new Point(394,800);
+        allPoints[4] = new Point(394,1000);
+        for(int i = 0; i < 5; i++){
+            //stackOne.pushStack(allDisks[i]);
+        }
         setFocusable(true);
     }
 
@@ -51,7 +72,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder holder){
         thread = new MainThread(getHolder(), this);
-
         thread.setRunning(true);
         thread.start();
     }
@@ -70,18 +90,18 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        int originX = 0;
-        int originY = 0;
+
         int finalX = 0;
         int finalY = 0;
-        int currentDisk = 0;
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
-                originX = (int)event.getX();            //doesn't work, use flag
-                originY = (int)event.getY();
+                if(!hold) {
+                    originX = (int) event.getX();
+                    originY = (int) event.getY();
+                }
                 for(int i = 0; i < 5; i++) {
-                    if (originX >= allDisks[currentDisk].getX() - 50 && originX <= allDisks[currentDisk].getX() + 50 && originY >= allDisks[currentDisk].getY() - 200 && originY <= allDisks[currentDisk].getY() + 200) {
+                    if ( allDisks[i].isInDisk(originX, originY)) {
                         hold = true;
                         currentDisk = i;
                     }
@@ -94,6 +114,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 hold = false;
                 finalX = (int)event.getX();
                 finalY = (int)event.getY();
+                int originX = 0;
+                int originY = 0;
+                currentDisk = 0;
                 break;
         }
 
@@ -106,15 +129,22 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         for(int i = 0; i < 5; i++) {
             allDisks[i].update(allPoints[i]);
         }
-//        one.update(onePoint);
+        standOne.update(pointOne);
+        standTwo.update(pointTwo);
+        standThree.update(pointThree);
     }
 
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
         canvas.drawColor(Color.WHITE);
+        standOne.draw(canvas);
+        standTwo.draw(canvas);
+        standThree.draw(canvas);
         for(int i = 0; i < 5; i++) {
             allDisks[i].draw(canvas);
         }
+        System.out.println(width/6);
     }
+
 }
