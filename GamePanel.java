@@ -19,7 +19,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     Disk[] allDisks = new Disk[5];
     Point[] allPoints = new Point[5];
-    //Peg stackOne = new Peg(xleft,xright);
+    //Peg stackOne = new Peg(xleft,xright);                         //figure out these coords and add them. left+right boundaries
     //Peg stackTwo = new Peg(xleft,xright);
     //Peg stackThree = new Peg(xleft,xright);
     Disk standOne;
@@ -144,7 +144,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
         for(int i = 0; i < 5; i++) {
             allDisks[i].draw(canvas);
         }
-        System.out.println(width/6);
     }
 
 }
