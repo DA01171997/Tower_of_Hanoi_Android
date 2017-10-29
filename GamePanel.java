@@ -114,8 +114,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
                 hold = false;
                 finalX = (int)event.getX();
                 finalY = (int)event.getY();
-                int originX = 0;
-                int originY = 0;
+                originX = 0;
+                originY = 0;
                 currentDisk = 0;
                 break;
         }
