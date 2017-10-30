@@ -19,7 +19,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 
     Disk[] allDisks = new Disk[5];
     Point[] allPoints = new Point[5];
-    //Peg stackOne = new Peg(xleft,xright);                         //figure out these coords and add them. left+right boundaries
+    //Peg stackOne = new Peg(xleft,xright);
     //Peg stackTwo = new Peg(xleft,xright);
     //Peg stackThree = new Peg(xleft,xright);
     Disk standOne;
@@ -33,31 +33,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
     int originY = 0;
     boolean hold;
 
+
     int width = getResources().getDisplayMetrics().widthPixels;
     int height = getResources().getDisplayMetrics().heightPixels;
-
+    int[] yPositions= {(int)(height*0.83),(int)(height*0.76),(int)(height*0.69),(int)(height*0.62),(int)(height*0.55)};
 
     public GamePanel(Context context){
         super(context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         hold = false;
-        standOne = new Disk(new Rect(100,100,(int)(width/3.1573),(height/8)), Color.rgb(0,0,0), 0);
-        standTwo = new Disk(new Rect(100,100,(int)(width/3.1573),(height/8)), Color.rgb(0,0,0), 0);
-        standThree = new Disk(new Rect(100,100,(int)(width/3.1573),(height/8)), Color.rgb(0,0,0), 0);
-        pointOne = new Point(394, 1300);
-        pointTwo = new Point(1184,1300);
-        pointThree = new Point(1973, 1300);
-        allDisks[0] = new Disk(new Rect(100,100,(int)(width/3.643),(height/8)), Color.rgb(0,255,0), 5);
-        allDisks[1] = new Disk(new Rect(100,100,550,(height/8)), Color.rgb(255,0,0), 4);
-        allDisks[2] = new Disk(new Rect(100,100,450,(height/8)), Color.rgb(0,0,255), 3);
-        allDisks[3] = new Disk(new Rect(100,100,350,(height/8)), Color.rgb(255,255,0), 2);
-        allDisks[4] = new Disk(new Rect(100,100,250,(height/8)), Color.rgb(0,255,255), 1);
-        allPoints[0] = new Point(394,(int)(height/1.3));
-        allPoints[1] = new Point((width/6),(int)(height/1.4));          //WTF
-        allPoints[2] = new Point((width/6),(int)(height/1.5));
-        allPoints[3] = new Point(394,800);
-        allPoints[4] = new Point(394,1000);
+        standOne = new Disk(new Rect(100,100,(int)(width/3.1573),(int)(height*0.125)), Color.rgb(0,0,0), 0);
+        standTwo = new Disk(new Rect(100,100,(int)(width/3.1573),(int)(height*0.125)), Color.rgb(0,0,0), 0);
+        standThree = new Disk(new Rect(100,100,(int)(width/3.1573),(int)(height*0.125)), Color.rgb(0,0,0), 0);
+        pointOne = new Point((int)(width*0.1664), (int)(height*0.9));
+        pointTwo = new Point((int)(width*0.5),(int)(height*0.9));
+        pointThree = new Point((int)(width*0.8353), (int)(height*0.9));
+        allDisks[0] = new Disk(new Rect(100,100,(int)(width*0.2745),(int)(height*0.125)), Color.rgb(0,255,0), 5);
+        allDisks[1] = new Disk(new Rect(100,100,(int)(width*0.2323),(int)(height*0.125)), Color.rgb(255,0,0), 4);
+        allDisks[2] = new Disk(new Rect(100,100,(int)(width*0.19),(int)(height*0.125)), Color.rgb(0,0,255), 3);
+        allDisks[3] = new Disk(new Rect(100,100,(int)(width*0.1478),(int)(height*0.125)), Color.rgb(255,255,0), 2);
+        allDisks[4] = new Disk(new Rect(100,100,(int)(width*0.1056),(int)(height*0.125)), Color.rgb(0,255,255), 1);
+        allPoints[0] = new Point((int)(width*0.1664),(int)(height*0.83));
+        allPoints[1] = new Point((int)(width*0.1664),(int)(height*0.76));          //WTF
+        allPoints[2] = new Point((int)(width*0.1664),(int)(height*0.69));
+        allPoints[3] = new Point((int)(width*0.1664),(int)(height*0.62));
+        allPoints[4] = new Point((int)(width*0.1664),(int)(height*0.55));
         for(int i = 0; i < 5; i++){
             //stackOne.pushStack(allDisks[i]);
         }
@@ -113,7 +114,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
             case MotionEvent.ACTION_UP:
                 hold = false;
                 finalX = (int)event.getX();
-                finalY = (int)event.getY();
+                finalY = (int)event.getY();             //Do snap to position here
+            //  allPoints[currentDisk].set((int) event.getX(), (int) event.getY())
                 originX = 0;
                 originY = 0;
                 currentDisk = 0;
