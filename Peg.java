@@ -21,7 +21,7 @@ public class Peg implements GameObject{
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas) {               //Might not need, or move black lines here
         for(int i = 0; i < DStack.size(); i++){
             canvas.drawRect(DStack.get(i).getRectDuy(), DStack.get(i).getColor());
         }
@@ -40,6 +40,9 @@ public class Peg implements GameObject{
         Disk temp = DStack.peek();
         DStack.pop();
         return temp;
+    }
+    public int getTopY(){                           //returns y-coord highest empty position
+        return 0;
     }
     public void pushStack(Disk d){
         DStack.push(d);
