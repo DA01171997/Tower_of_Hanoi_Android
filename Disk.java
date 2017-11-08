@@ -6,7 +6,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 /**
- * Created by JASON on 10/25/2017.
+ * Created by JASON LIEU and DUY DO on 10/25/2017.
  */
 
 public class Disk implements GameObject {
@@ -36,15 +36,9 @@ public class Disk implements GameObject {
 
     public void update(Point point){                 //center of rectangle
         rectangle.set(point.x - rectangle.width()/2,point.y - rectangle.height()/2,point.x + rectangle.width()/2, point.y + rectangle.height()/2);
-      //  currentX = point.x;// currentY = point.y;
+        //  currentX = point.x;// currentY = point.y;
     }
     public int getNum(){ return number;}
-    public int getX(){
-        return rectangle.centerX();
-    }
-    public int getY(){
-        return rectangle.centerY();
-    }
     public boolean isInDisk(int x, int y){
         return rectangle.contains(x,y);
     }
@@ -52,8 +46,5 @@ public class Disk implements GameObject {
         Paint paint = new Paint();
         paint.setColor(color);
         return paint;
-    }
-    public Rect getRectDuy(){
-        return rectangle;
     }
 }
