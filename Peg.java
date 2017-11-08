@@ -1,52 +1,48 @@
 package com.example.jason.towers;
 import android.graphics.Canvas;
 
-import java.util.Stack;
+import java.util.Vector;
 /**
- * Created by JASON on 10/26/2017.
+ * Created by JASON LIEU and DUY DO on 10/26/2017.
  */
 
 public class Peg implements GameObject{
-    private Stack<Disk>DStack;
-    private int left;                               //left x boundary
-    private int right;                              //right x boundary
+    private Vector<Disk>DStack = new Vector<>();
+    private int left;
+    private int right;
+    private int size;
     public Peg(int left, int right){
         this.left = left;
         this.right = right;
+        size = 0;
     }
 
     @Override
-    public void update() {
-
-    }
+    public void update() {}
 
     @Override
-    public void draw(Canvas canvas) {               //Might not need, or move black lines here
-        for(int i = 0; i < DStack.size(); i++){
-            canvas.drawRect(DStack.get(i).getRectDuy(), DStack.get(i).getColor());
-        }
-    }
+    public void draw(Canvas canvas) {}
 
-    public boolean checkMove(Stack<Disk> from, Stack <Disk> to){
-        if(to.isEmpty()){
-            return true;
-        }
-        else if(to.peek().getNum() > from.peek().getNum()){
-            return true;
-        }
-        else return false;
-    }
-    public Disk GetPopTop(){                        //returns top disk, pops stack
-        Disk temp = DStack.peek();
-        DStack.pop();
-        return temp;
-    }
-    public int getTopY(){                           //returns y-coord highest empty position
-        return 0;
-    }
     public void pushStack(Disk d){
-        DStack.push(d);
+        DStack.add(d);
+        size++;
     }
-    //size: stack.size()
-    //top:  stack.peek()
+    public void removeTop()
+    {
+        DStack.remove(size-1);
+        size--;
+    }
+    public int getSize(){
+        return size;
+    }
+    public Disk getTop(){
+        return DStack.get(size-1);
+    }
+    public int getLeft() { return left;}
+    public int getRight() { return right;}
+    public boolean checkWin(){
+        if(getSize() == 5){
+            return true;
+        }
+        return false;}
 }
