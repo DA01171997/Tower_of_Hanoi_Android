@@ -6,20 +6,20 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 /**
- * Created by JASON on 10/25/2017.
+ * Created by JASON LIEU and DUY DO on 10/25/2017.
  */
 
 public class Disk implements GameObject {
 
     private Rect rectangle;
     private int color;
+    private int number;
 
-    private int currentX;
-    private int currentY;
 
-    public Disk(Rect rectangle, int color){
+    public Disk(Rect rectangle, int color,int number){
         this.rectangle = rectangle;
         this.color = color;
+        this.number = number;
     }
 
     @Override
@@ -36,14 +36,15 @@ public class Disk implements GameObject {
 
     public void update(Point point){                 //center of rectangle
         rectangle.set(point.x - rectangle.width()/2,point.y - rectangle.height()/2,point.x + rectangle.width()/2, point.y + rectangle.height()/2);
-        currentX = point.x;
-        currentY = point.y;
+        //  currentX = point.x;// currentY = point.y;
     }
-
-    public int getX(){
-        return currentX;
+    public int getNum(){ return number;}
+    public boolean isInDisk(int x, int y){
+        return rectangle.contains(x,y);
     }
-    public int getY(){
-        return currentY;
+    public Paint getColor(){
+        Paint paint = new Paint();
+        paint.setColor(color);
+        return paint;
     }
 }

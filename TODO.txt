@@ -1,0 +1,8 @@
+Game logic stuff
+    Check win
+Visual stuff
+    start menu?
+    buttons
+        play
+        credits, make credit screen
+        reset
