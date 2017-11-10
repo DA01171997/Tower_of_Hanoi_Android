@@ -1,13 +1,6 @@
 Game logic stuff
     Check win
-    Peg boundaries
-    Implement Peg functions to GamePanel
-    Move Disk  (Do this in case:action up)
-        Use checkMove(from, to)
-        if true
-        snap disk to lowest possible peg position
 Visual stuff
-    starting locations of disks
     start menu?
     buttons
         play
